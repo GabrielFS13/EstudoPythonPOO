@@ -21,18 +21,27 @@ class Conta:
     def deposita(self, valor):
         self.__saldo += valor
 
+    #método privado
+    def __pode_sacar(self, valor_a_sacar):
+        disponivel_a_sacar = self.__saldo + self.__limite
+        return valor_a_sacar <= disponivel_a_sacar
+
     def saca(self, valor):
-        self.sal__saldodo -= valor
+        if(self.__pode_sacar(valor)):
+            self.__saldo -= valor
+        else:
+            print("Valor acima do limite!")
 
     def transfere(self, valor, destino):
         self.saca(valor)
         destino.deposita(valor)
 
     #Getters, nunca altera
-    def get_saldo(self):
+    @property
+    def saldo(self):
         return self.__saldo
-
-    def get_titular(self):
+    @property
+    def titular(self):
         return self.__titular
 
     @property
@@ -43,3 +52,15 @@ class Conta:
     @limite.setter
     def limite(self, novo_limite):
         self.__limite = novo_limite
+
+    @staticmethod
+    def codigo_banco():
+        return "001"
+
+    @staticmethod
+    def codigos_bancos():
+        return {
+            'BB': "001",
+            'Caixa': "104",
+            'Bradesco': "237"
+        }
